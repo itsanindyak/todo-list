@@ -20,7 +20,7 @@ pipeline{
         stage("build"){
             steps{
                 echo "========Building========"
-                sh "docker build -t todo ."
+                sh "docker build -t todo-app:latest ."
             }
             post{
                 success{
@@ -31,20 +31,30 @@ pipeline{
                 }
             }
         }
-        stage("test"){
+        stage("push to docker hub"){
             steps{
-                echo "========Testing========"
-                sh "docker images | grep todo"
+                echo "========push image to docker hub========"
+                withCredentials([usernamePassword(
+                    'credentialsId':"dockerHubCred",
+                    passwordVariable:'dockerHubPass',
+                    usernameVariable:"dockerHubUser")])
+                {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                    sh "docker image tag todo-app:latest ${env.dockerHubUser}/todo-app:latest"
+                    sh "docker push ${env.dockerHubUser}/todo-app:latest"
+                }
+
             }
             post{
                 success{
-                    echo "========Testing successfully========"
+                    echo "========Push image to docker hub successfully========"
                 }
                 failure{
-                    echo "========Testing failed========"
+                    echo "========Push image to docker hub failed========"
                 }
             }
         }
+        
         stage("deploy"){
             steps{
                 echo "========Deploying========"
