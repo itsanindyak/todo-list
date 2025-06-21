@@ -1,5 +1,6 @@
 services:
   frontend:
+    image: todo
     container_name: todo-app
     build:
       context: .

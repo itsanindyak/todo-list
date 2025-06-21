@@ -48,9 +48,8 @@ pipeline{
         stage("deploy"){
             steps{
                 echo "========Deploying========"
-                sh "docker rm -f todo-app || true" 
-                sh "docker run --name todo-app -p 80:80 -d todo"
-                sh "docker ps | grep todo-app"
+                sh "docker compose down || true"
+                sh "docker compose up -d"
             }
         }
     }
