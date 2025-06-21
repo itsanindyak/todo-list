@@ -1,3 +1,4 @@
+@Library("shared") _
 pipeline{
     agent{
         label "ak"
@@ -5,8 +6,9 @@ pipeline{
     stages{
         stage("clone"){
             steps{
-                echo "========Cloning========"
-                git url:"https://github.com/itsanindyak/todo-list.git",branch:"main"
+                script{
+                    clone("https://github.com/itsanindyak/todo-list.git","main")
+                }
             }
             post{
                 success{
