@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-deploy
+  namespace: todo-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-k8s
+  template:
+    metadata:
+      labels:
+        app: todo-k8s
+    spec:
+      containers:
+      - name: todo-container
+        image: itsanindyak/todo-app:latest
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"       # Reserve at least 0.2 CPU
+          limits:
+            memory: "128Mi"   # Cap memory usage
+            cpu: "400m"       # Cap CPU usage at 0.5 CPU
+        ports:
+        - containerPort: 80
