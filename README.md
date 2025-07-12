@@ -1,4 +1,4 @@
-# Todo App – React + Vite + Docker + Jenkins
+# Todo App – React + Vite + Docker + Jenkins+ kubernetes
 
 This is a simple project that demonstrates the workflow for production using Docker and Jenkins. It is intended as a reference implementation for modern frontend deployment pipelines.
 
